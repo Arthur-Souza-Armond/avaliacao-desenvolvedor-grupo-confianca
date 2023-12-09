@@ -2,10 +2,14 @@
 
 namespace app\controller;
 
-class UserController{
+use app\core\ControllerCore;
+
+class UserController extends ControllerCore{
 
     public function index(  ){
 
-        print_r( "teste 2" );
+        $this->view(
+            'home/main'
+        );
     }
 }
