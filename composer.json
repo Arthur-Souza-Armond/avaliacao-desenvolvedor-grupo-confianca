@@ -1,0 +1,16 @@
+{
+    "name": "arthur/grupo-confianca",
+    "description": "Avaliação técnica para vaga de emprego",
+    "authors": [
+        {
+            "name": "Arthur Souza",
+            "email": "asarmond82@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "app\\" : "app/"
+        }
+    }
+}
