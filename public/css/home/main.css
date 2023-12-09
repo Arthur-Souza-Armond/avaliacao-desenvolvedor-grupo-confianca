@@ -1,0 +1,45 @@
+h1{
+    font-size: 1.3em;
+    font-weight: bolder;
+}
+
+.btn-action{
+    width: 30px;
+    height: 30px;
+}
+
+#logo-edit{
+    width: 80px;
+}
+
+.table{
+    max-height: 700px;
+    overflow-y: auto;
+}
+
+#c-edit-user{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 30%;
+    box-shadow: 0 0 0.3em #ccc;
+    background-color: white;
+    animation: slide-left 1s;
+}
+
+@keyframes slide-left {
+    0%{
+        margin-right: -300px;
+    }
+    100%{
+        margin-right: 0;
+    }
+}
+
+@media screen and ( max-width: 768px ){
+
+    #c-edit-user{
+        width: 95%;
+    }
+}
