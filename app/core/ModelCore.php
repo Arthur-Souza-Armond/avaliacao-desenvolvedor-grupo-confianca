@@ -5,6 +5,7 @@ namespace app\core;
 use app\model\UserModel;
 use Exception;
 use PDO;
+use PDOException;
 
 class ModelCore{
 
@@ -35,10 +36,10 @@ class ModelCore{
 
     public function __construct(  )
     {
-        $this->server = DB_HOST;
-        $this->user = DB_USER;
-        $this->password = DB_PASS;
-        $this->database = DB_NAME;
+        $this->server = $_ENV['DB_HOST'];
+        $this->user = $_ENV['DB_USER'];
+        $this->password = $_ENV['DB_PASS'];
+        $this->database = $_ENV['DB_NAME'];
 
     }
 
@@ -83,6 +84,8 @@ class ModelCore{
             $this->query = $this->getConnection()->prepare( $query );
 
             $this->query->execute();
+
+            return 'success';
 
         }catch( Exception $e ){
 
@@ -131,9 +134,36 @@ class ModelCore{
 
             return 'success';
 
-        }catch( Exception $e ){
+        }catch( PDOException $e ){
 
             return $e->getMessage();
+        }
+    }
+
+    public function insert( $params ){
+
+        try{
+
+            $keysParams = implode( ',', array_keys( $params ) );
+            $valuesParams = implode( "','", array_values( $params ) );
+
+            $query = "INSERT INTO $this->table ( $keysParams ) VALUES ( '$valuesParams' )";
+
+            $this->query = $this->getConnection()->prepare( $query );
+
+            $this->query->execute();
+
+            return array(
+                'status' => 'success',
+                'id_user' => $this->getConnection()->lastInsertId()
+            );
+
+        }catch( PDOException $e ){
+
+            return array(
+                'status' => 'error',
+                'error' => $e->getMessage()
+            );
         }
     }
 

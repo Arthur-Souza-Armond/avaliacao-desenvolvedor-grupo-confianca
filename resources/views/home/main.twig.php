@@ -9,6 +9,18 @@
 {% endblock %}
 
 {% block body %}
+{% if urlData %}
+    <div class="container">
+        <div class=" p-3 mx-5 bg-danger text-light rounded-3">
+            <h3 style="font-size: 1em;" class="fw-bolder">
+                Erro:
+            </h3>
+            <p class="mb-0">
+                {{ urlData['error'] }}
+            </p>
+        </div>
+    </div>
+{% endif %}
 <main class="container">
     <article class="my-5">
         <h1>
@@ -68,18 +80,18 @@
             </button>
         </div>
         <div id="c-form-edit" class="my-5">
-            <form method="post">
+            <form method="POST" action="users/add-new">
                 <div class="mb-3">
                     <label for="i-disabled-id" class="form-label">ID do cliente</label>
-                    <input type="text" value="" class="form-control" id="i-disabled-id" disabled>
+                    <input type="text" name="id" value="" placeholder="Gerado automaticamente..." class="form-control" id="i-disabled-id" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="i-nomeuser" class="form-label">Nome:</label>
-                    <input type="text" value="" class="form-control" id="i-nomeuser">
+                    <input type="text" name="nome" value="" class="form-control" id="i-nomeuser">
                 </div>
                 <div class="mb-3">
                     <label for="i-email" class="form-label">Email:</label>
-                    <input type="email" value="" class="form-control" id="i-email">
+                    <input type="email" name="email" value="" class="form-control" id="i-email">
                 </div>
                 <div class="text-center mt-5">
                     <button type="submit" class="btn fw-bolder text-light w-50" style="background-color: #EC6608">Alterar</button>

@@ -21,4 +21,15 @@ class ControllerCore{
         $twig->addGlobal( 'BASE', BASE );
         echo $twig->render( $view . '.twig.php', $params );
     }
+
+    /**
+     * Função para controlar as respostas do controlador para o front-end
+     * 
+     * @param $data Dados a serem colocados junto à url
+     * @param $code Tipo de status http da requisição
+     */
+    protected function response( $url = '', $data = [], $code = 302 ){
+
+        header( "Location: " . BASE . $url . '?' . http_build_query( $data ), true, $code  );
+    }
 }

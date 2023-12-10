@@ -13,6 +13,7 @@ class UserController extends ControllerCore{
             'home/main',
             array(
                 'users' => $this->get_users(  ),
+                'urlData' => $_GET
             )
         );
     }
@@ -36,13 +37,26 @@ class UserController extends ControllerCore{
         $userModel = new UserModel();
         $user = $userModel->find( $id );
 
-        // Return
-        dd( $user->delete($user->id) );
+        if( empty( $user ) ){
+
+            $erros = array(
+                'error' => "Nenhum usuário encontrado para remoção"
+            );
+
+            return $this->response( '', $erros );
+        }
+
+        $res = $user->delete($user->id);
+
+        if( $res != 'success' )
+            return $this->response( $data = array( 'error' => $res ) );
+
+
+        return $this->response(  );
     }
 
     public function update(  ){
 
-        // Return
         $id = $_POST[ 'id' ];
 
         $userModel = new UserModel();
@@ -50,11 +64,41 @@ class UserController extends ControllerCore{
 
         if( empty( $user ) ){
 
-            // error
-            return;
+            $erros = array(
+                'error' => "Nenhum usuário encontrado para remoção"
+            );
+
+            return $this->response( '', $erros );
         }
 
-        dd( $user->update( $id, array( 'nome' => 'arthur alterado', 'email' => 'email alterado' ) ) );
+        $dataUser = array(
+            'nome' => $_POST[ 'nome' ],
+            'email' => $_POST[ 'email' ]
+        );
+
+        $res = $user->update( $id, $dataUser );
+
+        if( $res != 'success' )
+            return $this->response( $data = array( 'error' => $res ) );
+
+        return $this->response();
+    }
+
+    public function add_new(  ){
+
+        $userModel = new UserModel();
+
+        $user = array(
+            'nome' => $_POST[ 'nome' ],
+            'email' => $_POST[ 'email' ]
+        );
+
+        $res = $userModel->insert( $user );
+
+        if( $res['status'] == 'error' )
+            return $this->response( $data = array( 'error' => $res ) );
+
+        $this->response();
     }
 
     private function get_users(  ){

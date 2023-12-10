@@ -25,7 +25,7 @@ function show_edit_container( params = [], action_url = null ){
 
     fill_edit_container( params, fields );
 
-    set_action_form( action_url );
+    set_action_form( action_url, fields );
 
     cEdit.style.display = cEdit.style.display == 'block' ? 'none' : 'block';
 }
@@ -63,7 +63,7 @@ function fill_edit_container( params, fields ){
     fields.forEach( ( input, key ) => {
 
         if( input )
-            input.value = params[ key ];
+            input.value = params[ key ] != undefined ? params[ key ] : '';
     } )
 }
 
@@ -71,12 +71,17 @@ function fill_edit_container( params, fields ){
  * Função para configurar o tipo de ação do formulário
  * 
  * @param {string} action_url 
+ * @param { array } fields
  * 
  * @returns {void}
  */
-function set_action_form( action_url ){
+function set_action_form( action_url, fields ){
 
     const form = document.querySelector( '#c-form-edit form' );
-    
     form.action = action_url
+
+    if( action_url == 'users/add-new' )
+        fields[0].disabled = true;
+    else
+        fields[0].disabled = false;
 }
