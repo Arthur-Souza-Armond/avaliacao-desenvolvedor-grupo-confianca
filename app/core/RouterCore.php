@@ -29,6 +29,11 @@ class RouterCore{
 
         }catch( Exception $e ){
 
+            if( $e->getCode() == 404 || $e->getCode() == 405 ){
+
+                header( "Location: " . BASE . $e->getCode() );
+            }
+            
             // error handle
             echo $e->getMessage();
         }
@@ -67,17 +72,21 @@ class RouterCore{
             if( $r == $this->uri ){
 
                 if( $this->method != $action[ 'method' ] )
-                    throw new Exception( "O caminho da URL não suporta esse método de conexão - Error 405" );
+                    throw new Exception( "O caminho da URL não suporta esse método de conexão - Error 405", 405 );
 
                 if( is_callable( $action[ 'call' ] ) ){
 
                     $action['call']();
-                    break;
+                    return;
                 }
 
                 $this->execute_controller( $action[ 'call' ] );
+
+                return;
             }
         }
+
+        header("Location: " . BASE . '404');
     }
 
     /**
@@ -90,14 +99,14 @@ class RouterCore{
 
         $ex  = explode( '@', $actionCall );
         if( !isset( $ex[ 0 ] ) || !isset( $ex[1] ) )
-            throw new Exception( "Controller ou método não encontrado - Error 404" );
+            throw new Exception( "Controller ou método não encontrado - Error 404", 404 );
 
         $controller = 'app\\controller\\' . $ex[ 0 ];
         if( !class_exists( $controller ) )
-            throw new Exception( "Controller não encontrada - Error 404" );
+            throw new Exception( "Controller não encontrada - Error 404", 404 );
 
         if( !method_exists( $controller, $ex[ 1 ] ) )
-            throw new Exception( "Método não encontrado - Error 404" );
+            throw new Exception( "Método não encontrado - Error 404", 404 );
 
         call_user_func_array([
             new $controller,

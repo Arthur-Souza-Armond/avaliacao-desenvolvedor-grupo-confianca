@@ -44,7 +44,8 @@ class ModelCore{
     }
 
     /**
-     * Create a database connection or return the connection already open using Singletion Design Patern
+     * Criação da conexão com o banco de dados
+     * 
      * @return PDOConnection|null
      */
     public function getConnection()
@@ -67,7 +68,8 @@ class ModelCore{
     }
 
     /**
-     * Unset connection
+     * Remover conexão
+     * 
      * @return void
      */
     public function disconnect()
@@ -75,6 +77,11 @@ class ModelCore{
         self::$connection = null;
     }
 
+    /**
+     * Função de modelo para remover dados
+     * 
+     * @param $identifier ID do termo a ser removido
+     */
     public function delete( $identifier ){
 
         try{
@@ -172,7 +179,7 @@ class ModelCore{
      * 
      * @param int Quantidade de linhas a ser buscadas
      */
-    public function paginate( $rows = 0 ){
+    public function get(  ){
 
         if( $this->query == null ){
 
@@ -180,7 +187,7 @@ class ModelCore{
         }
 
         $queryString = $this->query->queryString;
-        $queryString .= " LIMIT $rows";
+        $queryString .= " LIMIT 100";
 
         $this->query = $this->getConnection()->prepare( $queryString );
 
@@ -262,5 +269,6 @@ class ModelCore{
         }
 
         return $dataSerialized;
-    }    
+    }
+
 }

@@ -104,6 +104,6 @@ class UserController extends ControllerCore{
     private function get_users(  ){
 
         $usersModel = new UserModel();
-        return $usersModel->paginate( 20 );
+        return $usersModel->get( 20 );
     }
 }
