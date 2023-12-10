@@ -35,7 +35,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                    <th scope="col">ID de cliente</th>
+                    <th scope="col">ID</th>
                     <th scope="col">Nome</th>
                     <th scope="col">Email</th>
                     <th scope="col">Ações</th>

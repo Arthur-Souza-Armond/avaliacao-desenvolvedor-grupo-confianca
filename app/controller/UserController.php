@@ -4,6 +4,7 @@ namespace app\controller;
 
 use app\core\ControllerCore;
 use app\model\UserModel;
+use Exception;
 
 class UserController extends ControllerCore{
 
@@ -57,53 +58,79 @@ class UserController extends ControllerCore{
 
     public function update(  ){
 
-        $id = $_POST[ 'id' ];
+        try{
 
-        $userModel = new UserModel();
-        $user = $userModel->find( $id );
+            $id = $_POST[ 'id' ];
 
-        if( empty( $user ) ){
-
-            $erros = array(
-                'error' => "Nenhum usuário encontrado para remoção"
+            $userModel = new UserModel();
+            $user = $userModel->find( $id );
+    
+            if( empty( $user ) ){
+    
+                $erros = array(
+                    'error' => "Nenhum usuário encontrado para remoção"
+                );
+    
+                return $this->response( '', $erros );
+            }
+    
+            $this->check_parameters( [ $_POST[ 'nome' ], $_POST[ 'email' ] ] );
+    
+            $dataUser = array(
+                'nome' => $_POST[ 'nome' ],
+                'email' => $_POST[ 'email' ]
             );
+    
+            $res = $user->update( $id, $dataUser );
+    
+            if( $res != 'success' )
+                return $this->response( $data = array( 'error' => $res ) );
+    
+            return $this->response();
 
-            return $this->response( '', $erros );
-        }
+        }catch( Exception $e ){
 
-        $dataUser = array(
-            'nome' => $_POST[ 'nome' ],
-            'email' => $_POST[ 'email' ]
-        );
-
-        $res = $user->update( $id, $dataUser );
-
-        if( $res != 'success' )
-            return $this->response( $data = array( 'error' => $res ) );
-
-        return $this->response();
+            return $this->response( '', array( 'error' => $e->getMessage() ) );
+        }        
     }
 
     public function add_new(  ){
 
-        $userModel = new UserModel();
+        try{
 
-        $user = array(
-            'nome' => $_POST[ 'nome' ],
-            'email' => $_POST[ 'email' ]
-        );
+            $userModel = new UserModel();
 
-        $res = $userModel->insert( $user );
+            $this->check_parameters( [ $_POST[ 'nome' ], $_POST[ 'email' ] ] );
 
-        if( $res['status'] == 'error' )
-            return $this->response( $data = array( 'error' => $res ) );
+            $user = array(
+                'nome' => $_POST[ 'nome' ],
+                'email' => $_POST[ 'email' ]
+            );
 
-        $this->response();
+            $res = $userModel->insert( $user );
+
+            if( $res['status'] == 'error' )
+                return $this->response( $data = array( 'error' => $res ) );
+
+            $this->response();
+        }catch( Exception $e ){
+
+            return $this->response( '', array( 'error' => $e->getMessage() ) );
+        }
     }
 
     private function get_users(  ){
 
         $usersModel = new UserModel();
         return $usersModel->get( 20 );
+    }
+
+    private function check_parameters( array $data ){
+
+        foreach( $data as $d ){
+
+            if( !isset( $d ) || $d == null || $d == "" )
+                throw new Exception( "Campos vazios ou inválidos" );
+        }
     }
 }
