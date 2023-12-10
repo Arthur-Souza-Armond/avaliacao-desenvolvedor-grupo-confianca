@@ -14,13 +14,6 @@ $this->add_action( 'users/find', 'UserController@find', 'POST' );
 
 $this->add_action( 'users/add-new', 'UserController@add_new', 'POST' );
 
-$this->add_action( '404', function(  ){
+$this->add_action( '404', 'SystemController@page_not_found', "GET" );
 
-    print_r( '404' );
-}, "GET" );
-
-
-$this->add_action( '405', function(  ){
-
-    print_r( '405' );
-}, "GET" );
+$this->add_action( '405', 'SystemController@method_not_supported', "GET" );
