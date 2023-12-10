@@ -12,9 +12,8 @@ define('DEBUG_URI', false);
 /**
  * Database configuration
  */
-/*
+
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_NAME', 'mini-framework');
-*/
+define('DB_NAME', 'grupo-confianca');
