@@ -50,3 +50,18 @@ Após seguir o passo a passo da instação, o programa já estará disponível p
 
 Para acessar o sistema, basta ligar o servidor apache e o servidor MySQL, e então entrar na url da pasta instalada.
 
+## Funcionamento
+
+O projeto foi construído utilizando arquitetura MVC, em que possui classes responsáveis por controlar a execução desses módulos que são:
+
+- ControllerCore - Responsável por criar as funcionalidades do container e usar o Twig
+- MigrationsCore - Responsável por criar as tabelas do banco de dados quando chamado
+- ModelCore - Responsável por criar as funções de modelos para serem usadas nos controladores
+- RouterCore - Responsável por criar as funcionalidades das rotas que são chamadas no index.php para gerenciar o sistema
+
+Além disso, foi utilizado o Twig para construir a parte do front-end para reaproveitar código e tornar o desenvolvimento mais ágil.
+
+.htaccess - Existem 2 arquivos .htaccess no projeto que são responsáveis por "proteger" as rotas e redirecionar acessos para o controlador de rotas. Dessa forma, protegendo o acesso malicioso
+
+Pasta config - Essa pasta contém dois arquivos `config.php` e `Router.php`, o arquivo config guarda algumas informações importantes para execução do sistema e constantes globais. Já o arquivo de Router é responsável por definir as rotas que serão usadas pelo core.
+

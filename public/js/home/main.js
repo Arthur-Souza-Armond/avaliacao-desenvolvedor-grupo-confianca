@@ -78,10 +78,18 @@ function fill_edit_container( params, fields ){
 function set_action_form( action_url, fields ){
 
     const form = document.querySelector( '#c-form-edit form' );
-    form.action = action_url
+    const btn = document.querySelector( '#c-form-edit form button' );
 
-    if( action_url == 'users/add-new' )
+    form.action = action_url;
+
+    if( action_url == 'users/add-new' ){
+        
         fields[0].disabled = true;
-    else
+        btn.innerHTML = "Salvar";
+
+    }else{
+
         fields[0].disabled = false;
+        btn.innerHTML = "Atualizar";
+    }
 }
