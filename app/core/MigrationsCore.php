@@ -6,10 +6,6 @@ use PDO;
 
 class MigrationsCore{
 
-    private $migrations = [
-        'm0001_users.php'
-    ];
-
     private static $connection;
 
     private $server, $user, $password, $database;
